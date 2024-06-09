@@ -1,0 +1,11 @@
+src/_ignored/
+src/createSimulatedData/_ignored
+src/evaluationMetrics/_ignored
+src/createSimulatedData/.ipynb_checkpoints
+src/.ipynb_checkpoints/
+src/evaluationMetrics/.ipynb_checkpoints
+src/quickstart-data
+src/quickstart-gendata
+src/jan30_largeframe_32_nonzero_standardized_local.keras
+src/jan30_largeframe_32_nonzero_standardized_local.h5
+env

@@ -1,0 +1,11 @@
+jupyter
+numpy
+scikit-image
+tensorflow-deps
+tensorflow-macos
+tensorflow-metal
+scikit-learn
+keras
+scikit-learn
+matplotlib
+aicsimageio
