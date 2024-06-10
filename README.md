@@ -11,20 +11,42 @@ pyLattice_deepLearning was created to segment puncta in 3D microscopy data. Howe
 ### Prerequisites
 * Anaconda (python 3.*)
 
-### Installing
+### Installing on Macs with M chips (for GPU Optimization)
 
 1. Clone this repository
 ```
-$ git clone https://github.com/JohSchoeneberg/pyLattice_deepLearning
+$ git clone git@github.com:Mdanishnadeem/LLSM_DeepLearning_Detection.git
 ```
-2. Setup a new Conda environment (Windows users need to do this on Anaconda Prompt)
+2. Install [Homebrew](https://brew.sh/)
+
+3. Install [miniforge](https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-MacOSX-arm64.sh)
 ```
-$ cd pyLattice_deepLearning
-$ conda create -n pyLattice_3D_env
-$ conda activate pyLattice_3D_env
-$ conda install pip=19.2
-$ pip install -r requirements.txt
-$ jupyter-notebook
+$ chmod +x ~/Downloads/Miniforge3-MacOSX-arm64.sh
+$ sh ~/Downloads/Miniforge3-MacOSX-arm64.sh
+$ source ~/miniforge3/bin/activate
+```
+
+4. Setup a new Conda environment 
+
+```
+$ cd LLSM_DeepLearning_Detection
+$ conda create --prefix ./env python=3.8
+$ conda activate ./env
+$ conda install -c apple tensorflow-deps
+$ python -m pip install tensorflow-macos
+$ python -m pip install tensorflow-metal
+$ pip install -r requirements.txt 
+```
+
+### General Installation
+
+```
+$ git clone git@github.com:Mdanishnadeem/LLSM_DeepLearning_Detection.git
+$ cd LLSM_DeepLearning_Detection
+$ conda create --name LLSM_DL python==3.8 
+$ conda activate LLSM_DL
+$ pip install -r requirements_gen.txt
+
 ```
 
 ## Usage
@@ -35,7 +57,7 @@ Run our quickstart notebooks! Look for comments in the notebook to guide you as 
 
 A: Raw Data B: Ground Truth C: Prediction
 
-### Preprocessing ([quickstart-1GenData.ipynb](https://github.com/JohSchoeneberg/pyLattice_deepLearning/blob/master/src/quickstart-1GenData.ipynb))
+### Preprocessing ([quickstart-1GenData.ipynb](https://github.com/Mdanishnadeem/LLSM_DeepLearning_Detection/blob/main/src/quickstart-1GenData.ipynb))
 
 This notebook generates and saves cube patches from the training data you provide.
 
@@ -43,13 +65,13 @@ Prior to running this notebook, create 2 folders under ```pyLattice_deepLearning
 1. ```pyLattice_deepLearning/src/quickstart-data/```
 2. ```pyLattice_deepLearning/src/quickstart-gendata/```
 
-Currently our code supports grayscale images. If you're looking to use RGB images, you'll need to edit how the numpy arrays are handled in [generator.py](https://github.com/JohSchoeneberg/pyLattice_deepLearning/blob/master/src/generator.py), [predict.py](https://github.com/JohSchoeneberg/pyLattice_deepLearning/blob/master/src/predict.py), and [visualize.py](https://github.com/JohSchoeneberg/pyLattice_deepLearning/blob/master/src/visualize.py), in addition to the 3 Jupyter Notebooks.
+Currently our code supports grayscale images. If you're looking to use RGB images, you'll need to edit how the numpy arrays are handled in [generator.py](https://github.com/Mdanishnadeem/LLSM_DeepLearning_Detection/blob/main/src/generator.py), [predict.py](https://github.com/Mdanishnadeem/LLSM_DeepLearning_Detection/blob/main/src/predict.py), and [visualize.py](https://github.com/Mdanishnadeem/LLSM_DeepLearning_Detection/blob/main/src/visualize.py), in addition to the 3 Jupyter Notebooks.
 
-### Training ([quickstart-2Unet3D.ipynb](https://github.com/JohSchoeneberg/pyLattice_deepLearning/blob/master/src/quickstart-2Unet3D.ipynb))
+### Training ([quickstart-2Unet3D.ipynb](https://github.com/Mdanishnadeem/LLSM_DeepLearning_Detection/blob/main/src/quickstart-2Unet3D.ipynb))
 
 This notebook trains a 3D U-Net.
 
-### Predicting ([quickstart-3Load_Model.ipynb](https://github.com/JohSchoeneberg/pyLattice_deepLearning/blob/master/src/quickstart-3Load_Model.ipynb))
+### Predicting ([quickstart-3Load_Model.ipynb](https://github.com/Mdanishnadeem/LLSM_DeepLearning_Detection/blob/main/src/quickstart-3Load_Model.ipynb))
 
 This notebook loads a 3D U-Net from the weights and exports the prediction.
 
