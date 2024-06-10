@@ -57,26 +57,32 @@ def predict_mask(model, image_path, patch_size, offset=np.zeros((3,), dtype=int)
             print("3rd dim offset exceeds image dim")
             offset[2] = 0
         
-        latticeMovieImage = latticeMovieImage[frame, offset[0]:z_size+offset[0], offset[1]:y_size+offset[1], offset[2]:x_size+offset[2]]
+        latticeMovieImage_frame = latticeMovieImage[frame, offset[0]:z_size+offset[0], offset[1]:y_size+offset[1], offset[2]:x_size+offset[2]]
         print("Image cropped to: " + str(x_size) + ", " + str(y_size) + ", " + str(z_size))
-        result = np.zeros((z_size, y_size, x_size, 1))
+        latticeMovieImage_all.append(latticeMovieImage_frame)
+        
+    
+        latticeMovieImage_all =  np.array(latticeMovieImage_all)
 
-        for x in range(x_size // patch_size):
-            for y in range(y_size // patch_size):
-                for z in range(z_size // patch_size):
-                    x_index = x * patch_size
-                    y_index = y * patch_size
-                    z_index = z * patch_size
+        result = np.zeros((frames, z_size, y_size, x_size, 1))
 
-                    current_lattice_patch = latticeMovieImage[frame, z_index:z_index + patch_size, y_index:y_index + patch_size,
-                                            x_index:x_index + patch_size]
-                    current_lattice_patch = current_lattice_patch.reshape(1, patch_size, patch_size, patch_size, 1)
+        for frame in range(frames):
+            for x in range(x_size // patch_size):
+                for y in range(y_size // patch_size):
+                    for z in range(z_size // patch_size):
+                        x_index = x * patch_size
+                        y_index = y * patch_size
+                        z_index = z * patch_size
 
-                    result_patch = model.predict(current_lattice_patch)
-                    for i in range(patch_size):
-                        for j in range(patch_size):
-                            for k in range(patch_size):
-                                result_pixel = result_patch[0, i, j, k, 0]
-                                result[z_index + i, y_index + j, x_index + k, 0] = result_pixel
+                        current_lattice_patch = latticeMovieImage_all[frame, z_index:z_index + patch_size, y_index:y_index + patch_size,
+                                                x_index:x_index + patch_size]
+                        current_lattice_patch = current_lattice_patch.reshape(1, patch_size, patch_size, patch_size, 1)
+
+                        result_patch = model.predict(current_lattice_patch)
+                        for i in range(patch_size):
+                            for j in range(patch_size):
+                                for k in range(patch_size):
+                                    result_pixel = result_patch[0, i, j, k, 0]
+                                    result[frame,z_index + i, y_index + j, x_index + k, 0] = result_pixel
 
     return result.reshape(1, z_size, y_size, x_size, 1)
